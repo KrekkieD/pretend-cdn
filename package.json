@@ -1,6 +1,6 @@
 {
   "name": "pretend-cdn",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Middleware that pretends to go through a CDN like Akamai and delays requests based on cache presence",
   "main": "index.js",
   "scripts": {
