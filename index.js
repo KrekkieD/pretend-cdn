@@ -7,7 +7,7 @@ module.exports = new PretendCdn();
 
 function PretendCdn () {
 
-	var cdnSettings = {
+	var DEFAULTS = {
 		log: true,
 		delays: {
 			cdn: 100,
@@ -21,6 +21,8 @@ function PretendCdn () {
 			long: 1440
 		}
 	};
+
+	var cdnSettings = {};
 
 	var cdnCache = {};
 
@@ -44,7 +46,14 @@ function PretendCdn () {
 
 	function setConfig (config) {
 
-		$extend(cdnSettings, config);
+		$extend(cdnSettings, DEFAULTS, config);
+
+		// sanitize config
+		cdnSettings.delays.cdn = cdnSettings.delays.cdn || DEFAULTS.delays.cdn;
+		cdnSettings.delays.source = cdnSettings.delays.source || DEFAULTS.delays.source;
+
+		cdnSettings.paths = cdnSettings.paths || {};
+		cdnSettings.profiles = cdnSettings.profiles || {};
 
 		return self.imitateCdn;
 
