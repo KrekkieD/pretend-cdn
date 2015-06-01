@@ -1,0 +1,17 @@
+{
+    "log": false,
+    "delays": {
+        "cdn": 30,
+        "source": 2000
+    },
+    "paths": {
+        "^GET:/exclude": "exclude",
+        "^GET:/cdn$": "cdn",
+        "^GET:/permanent": "permanent",
+        "^GET:/short": "short",
+        "^GET:/long": "long",
+        "^GET:/test/cdn-settings": "permanent",
+        "^GET:/cdn-settings": "permanent",
+        "^GET:.*?exclude": "exclude"
+    }
+}

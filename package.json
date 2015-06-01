@@ -1,0 +1,35 @@
+{
+  "name": "pretend-cdn",
+  "version": "0.1.0",
+  "description": "Middleware that pretends to go through a CDN like Akamai and delays requests based on cache presence",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KrekkieD/pretend-cdn.git"
+  },
+  "keywords": [
+    "cdn",
+    "cache",
+    "request",
+    "delay",
+    "akamai"
+  ],
+  "author": "Gregory Cowan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KrekkieD/pretend-cdn/issues"
+  },
+  "homepage": "https://github.com/KrekkieD/pretend-cdn",
+  "dependencies": {
+    "extend": "^2.0.1"
+  },
+  "devDependencies": {
+    "express": "^4.12.4",
+    "jasmine-node": "^1.14.5",
+    "q": "^1.4.1",
+    "serve-static": "^1.9.3"
+  }
+}
