@@ -1,5 +1,30 @@
 # pretend-cdn
 
+Put theory into practice! Sort of. Pretend-cdn helps you with experiencing your CDN cache setup in an easy-to-configure way. 
+
+Experience slow hits that go through to your main server, see how blazingly fast your CDN responses are, and notice how file updates on your server are not immediately reflected on CDN. All on your local setup.
+
+Pretend-cdn works by setting a url-based configuration to determine how many CDN servings a response should get. You're not bound to time and expiry headers, but instead use request count (or cache hits) to imitate cache expiry.
+
+## Example use case
+
+You provide translations to your frontend app using a request on `/i18n.json`. The contents of the file may change at any given time, as your copy writer works round the clock and is never happy. 
+
+A request to your server and rendering the file takes up to 2 seconds per hit, people are not happy. Setting cache expiry headers improves page load times but still requires every visitor to hit the server for every first request -- the page that needs to load fastest. You decide to cache the file on CDN.
+
+Your theory is that a 5 minute cache would be ideal, the copy writer has a short wait and most requests can hit the CDN instead of the server. You configure Pretend-cdn to serve 5 cached requests for every request forwarded to the main server:
+
+```
+{
+	"paths": {
+		"^GET:/i18n.json$": "cdn"
+	}
+}
+```
+When you first open the file in your browser you notice it's slow and takes about two seconds for it to be served. It has fetched the file from the server. But then you refresh, and again, and again -- it's fast, coming from CDN. 
+
+You make a change in your translations, and refresh. Nothing happens, the response is fast, but your change is not shown. The old version is still being served from the CDN. Another two refreshes, still nothing new. Once more, it's slow again, the 5 'minutes' have expired, a new version is being fetched from the server, and your changes? They're there. Blazingly fast, with another 5 refreshes to spare.
+
 ## Installation
 
 ```npm install pretend-cdn```
@@ -72,12 +97,18 @@ app.listen(8000);
 
 Some predefined profiles have been added to help with caching strategies:
 
-`exclude` - don't cache, is private or always needs fresh version
+- `exclude` - source hits only  
+	don't cache, is private or always needs fresh version.  
+- `permanent` - 1 source hit, followed by solely CDN hits  
+	cache indefinitely, assumed to never change on server.
+- `cdn` - 1 source hit before serving 5 CDN hits  
+	short caching on CDN for reduced latency and server hits.
+- `short` - 1 source hit before serving 30 CDN hits  
+	short caching, i.e. refresh every 30 minutes
+- `long` - 1 source hit before serving 1440 CDN hits  
+	long caching, i.e. refresh daily
 
-`permanent` - cache indefinitely, will never change on server
+## Potential Roadmap
 
-`cdn` - short caching on CDN for reduced latency and server hits
-
-`short` - short caching, i.e. refresh every 30 minutes
-
-`long` - long caching, i.e. refresh daily
+- add cache headers to response for browser caching?
+- read cache headers in original response?
