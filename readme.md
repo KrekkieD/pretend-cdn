@@ -8,11 +8,11 @@ Pretend-cdn works by setting a url-based configuration to determine how many CDN
 
 ## Example use case
 
-You provide translations to your frontend app using a request on `/i18n.json`. The contents of the file may change at any given time, as your copy writer works round the clock and is never happy. 
+You provide translations to your frontend app using a request on `/i18n.json`. The contents of the file may change at any given time, as your copy writer works round the clock and is never satisfied. 
 
-A request to your server and rendering the file takes up to 2 seconds per hit, people are not happy. Setting cache expiry headers improves page load times but still requires every visitor to hit the server for every first request -- the page that needs to load fastest. You decide to cache the file on CDN.
+A request to your server and rendering the file takes up to 2 seconds per hit, people are not happy. Setting cache expiry headers improves page load times but still requires every visitor to fetch the source from the server once when opening the homepage -- the page that needs to load fastest. You decide to cache the file on CDN.
 
-Your theory is that a 5 minute cache would be ideal, the copy writer has a short wait and most requests can hit the CDN instead of the server. You configure Pretend-cdn to serve 5 cached requests for every request forwarded to the main server:
+Your theory is that a 5 minute cache would be ideal, the copy writer will experience a short delay but most requests can hit the CDN instead of the server. You configure Pretend-cdn to serve 5 cached requests for every request forwarded to the main server:
 
 ```
 {
@@ -23,7 +23,7 @@ Your theory is that a 5 minute cache would be ideal, the copy writer has a short
 ```
 When you first open the file in your browser you notice it's slow and takes about two seconds for it to be served. It has fetched the file from the server. But then you refresh, and again, and again -- it's fast, coming from CDN. 
 
-You make a change in your translations, and refresh. Nothing happens, the response is fast, but your change is not shown. The old version is still being served from the CDN. Another two refreshes, still nothing new. Once more, it's slow again, the 5 'minutes' have expired, a new version is being fetched from the server, and your changes? They're there. Blazingly fast, with another 5 refreshes to spare.
+You make a change in your translations, and refresh. Nothing chaned, the response is fast, but your change is not shown. The old version is still being served from the CDN. Another two refreshes, still nothing new. Once more, it's slow again, the 5 'minutes' have expired, a new version is being fetched from the server, and your changes? They're there. Blazingly fast, with another 5 refreshes to spare.
 
 ## Installation
 
